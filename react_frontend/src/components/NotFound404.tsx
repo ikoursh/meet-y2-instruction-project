@@ -1,4 +1,4 @@
-export default function NotFound404(){
+export default function NotFound404(props:any){
     return (
     <div>
       <h1>404</h1>

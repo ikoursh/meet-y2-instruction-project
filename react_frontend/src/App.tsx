@@ -28,7 +28,7 @@ function App() {
             <br/>
             {JSON.stringify(data)}
             <Suspense>
-                <Component/>
+                {data?<Component data={data}/>:<div>Loading...</div>}
             </Suspense>
 
         </div>
@@ -38,8 +38,6 @@ function App() {
 function getComponent(path: string) {
     //unfortunately, we cannot dynamically import components at runtime so we need to use a switch
     switch (path) {
-        case "home":
-        case "/":
         case "":
             return lazy(() => import("./components/Home"));
     }
