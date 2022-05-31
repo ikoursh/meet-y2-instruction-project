@@ -8,6 +8,10 @@ def hello_world():  # put application's code here
     return {
         "title" : "My weird app"
     }
-
+@app.errorhandler(404)
+def not_found(error):
+    return {
+        "error" : "Not found"
+    }
 if __name__ == '__main__':
     app.run()
