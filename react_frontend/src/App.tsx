@@ -24,9 +24,11 @@ function App() {
 
     return (
         <div className="App">
-            {path}
+            <h2>Path</h2>
+            <p>{path===""?"/":path}</p>
+            <h2> Data</h2>
+            <p>{JSON.stringify(data, null, 4)}</p>
             <br/>
-            {JSON.stringify(data)}
             <Suspense>
                 {data?<Component data={data}/>:<div>Loading...</div>}
             </Suspense>
