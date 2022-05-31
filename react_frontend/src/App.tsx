@@ -25,11 +25,7 @@ function App() {
 
     return (
         <div className="App">
-            <h2>Path</h2>
-            <p>{path === "" ? "/" : path}</p>
-            <h2> Data</h2>
-            <p>{JSON.stringify(data, null, 4)}</p>
-            <br/>
+
             <Suspense>
                 {data ? <Component data={data}/> : <div>Loading...</div>}
             </Suspense>
