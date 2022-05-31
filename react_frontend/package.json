@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@carbon/icons-react": "^11.4.0",
+    "@carbon/layout": "^11.2.0",
     "@carbon/react": "^1.4.0",
     "@testing-library/jest-dom": "^5.16.4",
     "@testing-library/react": "^13.3.0",

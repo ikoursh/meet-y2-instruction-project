@@ -8,6 +8,12 @@ def hello_world():  # put application's code here
     return {
         "title" : "My weird app"
     }
+
+@app.route('/')
+def login():  # put application's code here
+    return {
+        "data" : "nothing here"
+    }
 @app.errorhandler(404)
 def not_found(error):
     return {

@@ -15,9 +15,10 @@ function App() {
     useEffect(() => {
         try {
             fetch(url + "/" + path)
-                .then(res => res?res.json():res)
+                .then(res => res ? res.json() : res)
                 .then(json => setData(json))
-        } catch (e){}
+        } catch (e) {
+        }
     }, [path]);
 
     const Component = getComponent(path);
@@ -25,12 +26,12 @@ function App() {
     return (
         <div className="App">
             <h2>Path</h2>
-            <p>{path===""?"/":path}</p>
+            <p>{path === "" ? "/" : path}</p>
             <h2> Data</h2>
             <p>{JSON.stringify(data, null, 4)}</p>
             <br/>
             <Suspense>
-                {data?<Component data={data}/>:<div>Loading...</div>}
+                {data ? <Component data={data}/> : <div>Loading...</div>}
             </Suspense>
 
         </div>
@@ -42,6 +43,8 @@ function getComponent(path: string) {
     switch (path) {
         case "":
             return lazy(() => import("./components/Home"));
+        case "login":
+            return lazy(() => import("./components/Login"));
     }
     return lazy(() => import("./components/NotFound404"));
 }
