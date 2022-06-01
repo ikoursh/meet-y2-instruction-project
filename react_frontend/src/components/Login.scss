@@ -35,8 +35,10 @@
 
 .divider{
   border-top: solid 1px #e7e7e8;
-  width: 100%;
+  width: calc(100% + 32px);
   margin-bottom: 16px;
+  right: 16px;
+  position: relative;
 }
 
 .text-input{
