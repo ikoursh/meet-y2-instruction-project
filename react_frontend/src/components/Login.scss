@@ -29,6 +29,10 @@
   margin-bottom: 48px;
 }
 
+.help-text{
+  font-size: small;
+}
+
 .divider{
   border-top: solid 1px #e7e7e8;
   width: 100%;
@@ -36,10 +40,11 @@
 }
 
 .text-input{
-  margin-bottom: 24px;
+  //margin-bottom: 24px;
 }
 
 .checkbox{
+  margin-top: 16px;
   margin-bottom: 40px;
 }
 
@@ -49,3 +54,10 @@
   bottom: 0;
   position: absolute;
 }
+.button-back{
+  width: 50%;
+  left: 0;
+  bottom: 0;
+  position: absolute;
+}
+
