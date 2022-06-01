@@ -2,6 +2,7 @@ import React, {lazy, useEffect, Suspense} from 'react';
 import './App.css';
 import {getAuth} from "firebase/auth"
 import firebase from "./firebase";
+import {Header, HeaderName} from "carbon-components-react";
 
 const url = "http://127.0.0.1:5000"
 
@@ -53,9 +54,19 @@ function App() {
     return (
         <div className="App">
 
+
+
+            <div style={{top:"48px", position:"relative"}}>
             <Suspense>
                 {data ? <Component data={data}/> : <div>Loading...</div>}
             </Suspense>
+            </div>
+
+            <Header >
+                <HeaderName href="/" prefix="API Playground">
+                    WEB
+                </HeaderName>
+            </Header>
 
         </div>
     );

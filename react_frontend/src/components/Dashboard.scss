@@ -1,0 +1,13 @@
+@use '@carbon/react';
+
+.side-nav{
+  margin-top: 48px;
+}
+
+.bg{
+  min-height: calc(100vh - 48px);
+  width: calc(100vw - 256px);
+  position: relative;
+  left: 256px;
+  background-color: #f4f4f4;
+}
