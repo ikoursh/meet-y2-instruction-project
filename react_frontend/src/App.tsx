@@ -1,8 +1,11 @@
 import React, {lazy, useEffect, Suspense} from 'react';
-import './App.css';
+import './App.scss';
 import {getAuth} from "firebase/auth"
 import firebase from "./firebase";
-import {Header, HeaderName, Loading} from "carbon-components-react";
+import {Header, HeaderName} from "carbon-components-react";
+//@ts-ignore
+import {Loading} from "@carbon/react";
+
 
 const url = "http://127.0.0.1:5000"
 
