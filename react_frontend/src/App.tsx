@@ -2,7 +2,7 @@ import React, {lazy, useEffect, Suspense} from 'react';
 import './App.css';
 import {getAuth} from "firebase/auth"
 import firebase from "./firebase";
-import {Header, HeaderName} from "carbon-components-react";
+import {Header, HeaderName, Loading} from "carbon-components-react";
 
 const url = "http://127.0.0.1:5000"
 
@@ -27,12 +27,8 @@ function App() {
         const fetchData = async () => {
 
             try {
-                // console.log("AAA")
                 console.log(auth.currentUser)
-                // //@ts-ignore
-                // console.log(JSON.stringify({token: await auth.currentUser.getIdToken()
-                // }))
-                // post request to server with firebase token and path
+
                 fetch(url + "/" + path, {
                     method: "POST",
                     headers: {
@@ -47,7 +43,7 @@ function App() {
             }
         }
         fetchData();
-    }, [user]);
+    }, []);
 
     const Component = getComponent(path);
 
@@ -57,8 +53,8 @@ function App() {
 
 
             <div style={{top:"48px", position:"relative"}}>
-            <Suspense>
-                {data ? <Component data={data}/> : <div>Loading...</div>}
+            <Suspense fallback={<Loading/>}>
+                {data ? <Component data={data}/> : <Loading/>}
             </Suspense>
             </div>
 
