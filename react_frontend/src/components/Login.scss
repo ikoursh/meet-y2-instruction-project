@@ -16,7 +16,7 @@
   background-color: white;
   padding: 16px;
   text-align: left;
-  width: 40%;
+  width: min(max(40%, 260px), 90%);
   height: 370px;
 
 }
