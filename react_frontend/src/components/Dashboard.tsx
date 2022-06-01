@@ -10,6 +10,9 @@ import {
     SideNavItem, SideNavMenu, SideNavMenuItem
 } from 'carbon-components-react';
 import React from 'react';
+
+//@ts-ignore
+import {ArrowUpRight} from "@carbon/icons-react";
 import "./Dashboard.scss"
 
 export default function Dashboard(props:any){
@@ -18,48 +21,26 @@ export default function Dashboard(props:any){
             <div className={"bg"}>
 
             <h1>Dashboard</h1>
-                <Form>
+                <Form className={"form"}>
+                    <h2>Astronomic Picture of The Day</h2>
                     <TextInput
-                        helperText="Optional helper text here; if message is more than one line text should wrap (~100 character count maximum)"
-                        id="test2"
-                        invalidText="Invalid error message."
-                        labelText="Text input label"
-                        placeholder="Placeholder text"
+                        helperText="API url endpoint"
+                        id="url"
+                        labelText="URL"
+                        contentEditable={false}
+                        // disabled={true}
+                        value={"https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY"}
                     />
-                    <TextArea
-                        cols={50}
-                        helperText="Optional helper text here; if message is more than one line text should wrap (~100 character count maximum)"
-                        id="test5"
-                        invalidText="Invalid error message."
-                        labelText="Text area label"
-                        placeholder="Placeholder text"
-                        rows={4}
-                    />
-                    <Select
-                        defaultValue="placeholder-item"
-                        id="select-1"
-                        invalidText="This is an invalid error message."
-                        labelText="Select"
-                    >
-                        <SelectItem
-                            text="Option 1"
-                            value="option-1"
-                        />
-                        <SelectItem
-                            text="Option 2"
-                            value="option-2"
-                        />
-                        <SelectItem
-                            text="Option 3"
-                            value="option-3"
-                        />
-                    </Select>
+
                     <Button
                         kind="primary"
                         tabIndex={0}
                         type="submit"
+                        size={"md"}
+                        className={"get-button"}
+                        renderIcon={ArrowUpRight}
                     >
-                        Submit
+                        GET
                     </Button>
                 </Form>
 
