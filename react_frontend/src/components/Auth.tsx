@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 // import * as carbon from "@carbon/react"
 import "./Login.scss";
 import {Button, Form, TextInput, Grid, Checkbox, Link, PasswordInput} from 'carbon-components-react';
@@ -15,8 +15,15 @@ export default function Auth(props: { AuthType: string }) {
     const [email, setEmail] = React.useState("");
     const [password, setPassword] = React.useState("");
     const [stage, setStage] = React.useState(0);
-    const isValid = !(stage == 0 ? !isValidEmail(email) : password.length < 6);
+    const [isValid, setIsValid] = React.useState(!(stage == 0 ? !isValidEmail(email) : password.length < 6));
     const isLogin = props.AuthType == "login";
+
+    const [passwordErrorText, setPasswordErrorText] = useState("Invalid password. Must have more then 6 characters.");
+
+    useEffect(()=>{
+        setIsValid(!(stage == 0 ? !isValidEmail(email) : password.length < 6));
+    }, [email, password, stage]);
+
     return (
         <div style={{position: "relative"}}>
 
@@ -30,11 +37,19 @@ export default function Auth(props: { AuthType: string }) {
                         setStage(1);
                     } else if (stage == 1){
                         if (isLogin){
-                            console.log(await signInWithEmailAndPassword(auth, email, password));
+                            try{
+                            console.log(await signInWithEmailAndPassword(auth, email, password))
+                                window.location.replace("/dashboard");
+                            } catch (e){
+                                //wrong password
+                                setIsValid(false);
+                                setPasswordErrorText("Wrong login. Check your email and password.");
+                            }
                         } else{
                             console.log(await createUserWithEmailAndPassword(auth, email, password));
+                            window.location.replace("/dashboard")
                         }
-                        window.location.replace("/dashboard")
+
                     }
                 }}>
 
@@ -64,12 +79,13 @@ export default function Auth(props: { AuthType: string }) {
                             <Checkbox id={"rememberId"} labelText={"Remember me"} className={"checkbox"}/></> :
                         <PasswordInput
                             id="password"
-                            invalidText="Invalid password. Must have more then 6 characters."
+                            invalidText={passwordErrorText}
                             labelText="Password"
                             placeholder="********"
                             className={'text-input'}
                             onChange={(e) => {
                                 setPassword(e.target.value);
+                                setPasswordErrorText("Invalid password. Must have more then 6 characters.");
                             }}
                             value={password}
                             type={'password'}
