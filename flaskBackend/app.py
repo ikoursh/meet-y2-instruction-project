@@ -1,11 +1,11 @@
-from flask import Flask
+from flask import Flask, request
 from flask_cors import CORS
 
 app = Flask(__name__)
 CORS(app)
 
 
-@app.route('/')
+@app.route('/', methods = ["POST"])
 def hello_world():  # put application's code here
     return {
         "title": "API Playground",
@@ -15,11 +15,18 @@ def hello_world():  # put application's code here
     }
 
 
-@app.route('/')
+@app.route('/', methods = ["POST"])
 def login():  # put application's code here
     return {
         "data": "nothing here"
     }
+
+@app.route('/dashboard', methods = ["POST"])
+def dashboard():
+    print(request.get_json());
+    return {
+        "data": "nothing here"
+    };
 
 
 @app.errorhandler(404)

@@ -18,7 +18,9 @@ export default function Home(props:{data:any}){
             <Button renderIcon={Login} size={"lg"} onClick={()=>{
                 window.location.href= "/login";
             }} className={"button"}>Login </Button>
-            <Button className={"button"} renderIcon={ArrowRight} kind={"secondary"} size={"lg"}>Signup </Button>
+            <Button className={"button"} renderIcon={ArrowRight} kind={"secondary"} size={"lg"} onClick={()=>{
+                window.location.href= "/register";
+            }} >Register </Button>
             <a className={"attr"} href="https://www.freepik.com/vectors/grainy-background">Grainy background vector created by freepik - www.freepik.com</a>
 
         </div>

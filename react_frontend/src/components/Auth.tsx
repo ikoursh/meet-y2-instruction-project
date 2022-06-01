@@ -4,7 +4,9 @@ import "./Login.scss";
 import {Button, Form, TextInput, Grid, Checkbox, Link, PasswordInput} from 'carbon-components-react';
 //@ts-ignore
 import {ArrowRight} from '@carbon/icons-react';
-
+import {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword} from "firebase/auth";
+import firebase from "../firebase";
+const auth = getAuth(firebase);
 function isValidEmail(email: string) {
     return email.length > 0 && email.includes("@");
 }
@@ -22,10 +24,17 @@ export default function Auth(props: { AuthType: string }) {
             </img>
             <div className={"center"}>
 
-                <Form onSubmit={(e) => {
+                <Form onSubmit={async (e) => {
                     e.preventDefault();
-                    if (isValidEmail(email)) {
+                    if (stage==0) {
                         setStage(1);
+                    } else if (stage == 1){
+                        if (isLogin){
+                            console.log(await signInWithEmailAndPassword(auth, email, password));
+                        } else{
+                            console.log(await createUserWithEmailAndPassword(auth, email, password));
+                        }
+                        window.location.replace("/dashboard")
                     }
                 }}>
 

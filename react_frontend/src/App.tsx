@@ -1,6 +1,8 @@
 import React, {lazy, useEffect, Suspense} from 'react';
 import './App.css';
-// import C from './components/Home';
+import {getAuth} from "firebase/auth"
+import firebase from "./firebase";
+
 const url = "http://127.0.0.1:5000"
 
 function pathFromHref(href: string) {
@@ -9,17 +11,42 @@ function pathFromHref(href: string) {
     return rest.join("/");
 }
 
+const auth = getAuth(firebase);
+
 function App() {
     const path = pathFromHref(window.location.href);
     const [data, setData] = React.useState<any>(null);
-    useEffect(() => {
-        try {
-            fetch(url + "/" + path)
-                .then(res => res ? res.json() : res)
-                .then(json => setData(json))
-        } catch (e) {
+    const [user, setUser] = React.useState<any>(getAuth(firebase).currentUser);
+    auth.onAuthStateChanged((userL) => {
+        if (JSON.stringify(userL) != JSON.stringify(user)) {
+            setUser(userL);
         }
-    }, [path]);
+    });
+    useEffect(() => {
+        const fetchData = async () => {
+
+            try {
+                // console.log("AAA")
+                console.log(auth.currentUser)
+                // //@ts-ignore
+                // console.log(JSON.stringify({token: await auth.currentUser.getIdToken()
+                // }))
+                // post request to server with firebase token and path
+                fetch(url + "/" + path, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: user != null ? JSON.stringify({
+                        token: await user.getIdToken()
+                    }) : "{}"
+                }).then(res => res ? res.json() : res)
+                    .then(json => setData(json));
+            } catch (e) {
+            }
+        }
+        fetchData();
+    }, [user]);
 
     const Component = getComponent(path);
 
@@ -43,6 +70,8 @@ function getComponent(path: string) {
             return lazy(() => import("./components/Login"));
         case "register":
             return lazy(() => import("./components/Register"));
+        case "dashboard":
+            return lazy(() => import("./components/Dashboard"));
     }
     return lazy(() => import("./components/NotFound404"));
 }
