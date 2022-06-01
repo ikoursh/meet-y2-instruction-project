@@ -41,6 +41,8 @@ function getComponent(path: string) {
             return lazy(() => import("./components/Home"));
         case "login":
             return lazy(() => import("./components/Login"));
+        case "register":
+            return lazy(() => import("./components/Register"));
     }
     return lazy(() => import("./components/NotFound404"));
 }
