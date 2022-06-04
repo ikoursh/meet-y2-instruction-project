@@ -4,9 +4,8 @@ import "./Login.scss";
 import {Button, Form, TextInput, Grid, Checkbox, Link, PasswordInput} from 'carbon-components-react';
 //@ts-ignore
 import {ArrowRight} from '@carbon/icons-react';
-import {getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword} from "firebase/auth";
-import firebase from "../firebase";
-const auth = getAuth(firebase);
+import {createUserWithEmailAndPassword, signInWithEmailAndPassword} from "firebase/auth";
+import {auth} from "../firebase";
 function isValidEmail(email: string) {
     return email.length > 0 && email.includes("@");
 }

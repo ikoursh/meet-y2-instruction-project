@@ -1,10 +1,10 @@
-import React, {lazy, useEffect, Suspense} from 'react';
+import React, {lazy, useEffect, Suspense, useState} from 'react';
 import './App.scss';
-import {getAuth} from "firebase/auth"
-import firebase from "./firebase";
+import firebase, {auth} from "./firebase";
 import {Header, HeaderName} from "carbon-components-react";
 //@ts-ignore
 import {Loading} from "@carbon/react";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 
 const url = "http://127.0.0.1:5000"
@@ -15,17 +15,12 @@ function pathFromHref(href: string) {
     return rest.join("/");
 }
 
-const auth = getAuth(firebase);
 
 function App() {
     const path = pathFromHref(window.location.href);
     const [data, setData] = React.useState<any>(null);
-    const [user, setUser] = React.useState<any>(getAuth(firebase).currentUser);
-    auth.onAuthStateChanged((userL) => {
-        if (JSON.stringify(userL) != JSON.stringify(user)) {
-            setUser(userL);
-        }
-    });
+    const [user, loading, error] = useAuthState(auth);
+
     useEffect(() => {
         const fetchData = async () => {
 
@@ -46,7 +41,7 @@ function App() {
             }
         }
         fetchData();
-    }, []);
+    }, [user]);
 
     const Component = getComponent(path);
 

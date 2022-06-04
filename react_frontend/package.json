@@ -18,6 +18,7 @@
     "carbon-components-react": "^8.4.0",
     "react": "^18.1.0",
     "react-dom": "^18.1.0",
+    "react-firebase-hooks": "^5.0.3",
     "react-scripts": "5.0.1",
     "sass": "1.51.0",
     "typescript": "^4.7.2",

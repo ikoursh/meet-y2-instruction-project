@@ -1,6 +1,12 @@
 from flask import Flask, request
 from flask_cors import CORS
 
+import firebase_admin
+from firebase_admin import credentials, auth
+
+cred = credentials.Certificate("firebase_key.json")
+firebase_app = firebase_admin.initialize_app(cred)
+
 app = Flask(__name__)
 CORS(app)
 
@@ -23,10 +29,16 @@ def login():  # put application's code here
 
 @app.route('/dashboard', methods = ["POST"])
 def dashboard():
-    print(request.get_json());
-    return {
-        "data": "nothing here"
-    };
+    data = request.get_json();
+    print(data);
+    if "token" not in data.keys():
+        return {
+            "error": "Unauthorized"
+        }, 401
+    decoded_token = auth.verify_id_token(data["token"], firebase_app, True);
+    print(decoded_token);
+    return {};
+
 
 
 @app.errorhandler(404)
