@@ -49,10 +49,12 @@ def dashboard():
         for q in query:
             data = urllib.parse.unquote_plus(q).split("=", 1);
             decoded_query[data[0]] = data[1]
-        decoded_query["url"] += "?api_key=DEMO_KEY"
-        print(decoded_query)
+        decoded_query["api_key"] = "DEMO_KEY"
+        url = decoded_query["url"]+"?"
+        decoded_query.pop("url")
     # create a get request to the url in the query
-        response = urllib.request.urlopen(decoded_query["url"])
+        print(url + urllib.parse.urlencode(decoded_query))
+        response = urllib.request.urlopen(url + urllib.parse.urlencode(decoded_query))
         return {
             "responce": json.loads(response.read().decode("utf-8"))
         }

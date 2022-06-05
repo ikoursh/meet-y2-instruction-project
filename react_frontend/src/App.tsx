@@ -45,8 +45,9 @@ function App() {
             } catch (e) {
             }
         }
-        fetchData();
-    }, [user]);
+        if (!loading)
+            fetchData();
+    }, [user, loading]);
 
     const Component = getComponent(path);
 
