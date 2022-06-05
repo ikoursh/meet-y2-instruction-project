@@ -12,12 +12,12 @@ const url = "http://127.0.0.1:5000"
 function pathFromHref(href: string) {
     href = href.replace("://", "");
     const [, ...rest] = href.split('/');
-    return rest.join("/");
+    return rest.join("/").split("?");
 }
 
 
 function App() {
-    const path = pathFromHref(window.location.href);
+    const [path, query] = pathFromHref(window.location.href);
     const [data, setData] = React.useState<any>(null);
     const [user, loading, error] = useAuthState(auth);
 
@@ -32,9 +32,10 @@ function App() {
                     headers: {
                         "Content-Type": "application/json"
                     },
-                    body: user != null ? JSON.stringify({
-                        token: await user.getIdToken()
-                    }) : "{}"
+                    body: JSON.stringify({
+                        ...(user) && {"token": await user.getIdToken()},
+                        ...(query) && {"query": query}
+                    })
                 }).then(res => res ? res.json() : res)
                     .then(json => setData(json));
             } catch (e) {

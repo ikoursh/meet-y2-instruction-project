@@ -27,15 +27,16 @@ export default function Dashboard(props:any){
                 </Breadcrumb>
 
             <h1>Dashboard</h1>
-                <Form className={"form"}>
+                <Form className={"form"} action={"/dashboard"} method={"get"}>
                     <h2>Astronomic Picture of The Day</h2>
                     <TextInput
                         helperText="API url endpoint"
                         id="url"
+                        name={"url"}
                         labelText="URL"
                         contentEditable={false}
                         // disabled={true}
-                        value={"https://api.nasa.gov/planetary/apod?api_key=DEMO_KEY"}
+                        value={"https://api.nasa.gov/planetary/apod"}
                     />
 
                     <Button
@@ -49,6 +50,11 @@ export default function Dashboard(props:any){
                         GET
                     </Button>
                 </Form>
+
+                <div className={"form"} style={{marginTop: 24}}>
+                    <h2>Response</h2>
+                   <pre style={{whiteSpace:"pre-wrap" }}> {JSON.stringify(props.data, null, 4)}</pre>
+                </div>
 
             </div>
 
