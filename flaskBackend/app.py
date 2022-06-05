@@ -55,9 +55,8 @@ def dashboard():
     # create a get request to the url in the query
         print(url + urllib.parse.urlencode(decoded_query))
         response = urllib.request.urlopen(url + urllib.parse.urlencode(decoded_query))
-        return {
-            "responce": json.loads(response.read().decode("utf-8"))
-        }
+        return json.loads(response.read().decode("utf-8"))
+
 
     except Exception as e:
         print(e)
