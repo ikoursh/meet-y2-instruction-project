@@ -33,13 +33,17 @@ def login():  # put application's code here
 def dashboard():
     try:
         data = request.get_json();
+
+        if "query" not in data.keys():
+            return {}
+
         if "token" not in data.keys():
             return {
                        "error": "Unauthorized"
                    }, 401
         decoded_token = auth.verify_id_token(data["token"], firebase_app, True);
-        if "query" not in data.keys():
-            return {}
+
+
         query = data["query"].split("&")
         decoded_query = dict();
         for q in query:
