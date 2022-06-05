@@ -21,6 +21,10 @@ function App() {
     const [data, setData] = React.useState<any>(null);
     const [user, loading, error] = useAuthState(auth);
 
+    if (user && (path=="login" || path=="register")) {
+        window.location.href = "/dashboard";
+    }
+
     useEffect(() => {
         const fetchData = async () => {
 
