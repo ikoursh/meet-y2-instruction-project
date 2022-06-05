@@ -9,7 +9,7 @@ import {
     SideNavItems,
     SideNavItem, SideNavMenu, SideNavMenuItem, Breadcrumb, BreadcrumbItem
 } from 'carbon-components-react';
-import React from 'react';
+import React, {ReactNode} from 'react';
 
 //@ts-ignore
 import {ArrowUpRight} from "@carbon/icons-react";
@@ -54,7 +54,7 @@ export default function Dashboard(props:any){
 
                 <div className={"form"} style={{marginTop: 24}}>
                     <h2>Response</h2>
-                   <pre style={{whiteSpace:"pre-wrap" }}> {JSON.stringify(props.data, null, 4)}</pre>
+                   <pre style={{whiteSpace:"pre-wrap" }}> {linkRenderer(JSON.stringify(props.data, null, 4))}</pre>
                 </div>
 
             </div>
@@ -114,4 +114,20 @@ export default function Dashboard(props:any){
 export interface formData{
     name: string,
     value: string
+}
+
+
+export const linkRenderer = (string: string):ReactNode => {
+    const linkExp = /^https?:\/\/[a-z0-9_./-]*$/i
+    return <>{
+        string.split(/(https?:\/\/[a-z0-9_./-]*)/gi).map((part, k) => <React.Fragment key={k}>
+            {part.match(linkExp) ? <a
+                    href={part}
+                    onFocus={(e) => { e.stopPropagation() }}
+                    target="_blank"
+                    rel="noreferrer"
+                >{part}</a>
+                : part}
+        </React.Fragment>)
+    }</>
 }
