@@ -18,10 +18,8 @@ import {db} from "../firebase";
 import { ref, set, get } from 'firebase/database';
 export default function Dashboard(props:any){
     const [name, setName] = React.useState("Astronomic Picture of the Day");
-    const [data, setData] = React.useState<formData[]>([{
-        name: "URL",
-        value: "https://api.nasa.gov/planetary/apod"
-    }]);
+    // @ts-ignore
+    const data:formData[] = dataMap[name];
 
     useEffect(()=>{
         get(ref(db, props.user.uid)).then(snapshot => {
@@ -82,39 +80,18 @@ export default function Dashboard(props:any){
                             set(ref(db, props.user.uid), {
                                 selected: "Astronomic Picture of the Day"
                             });
-                            setData([{
-                                name: "URL",
-                                value: "https://api.nasa.gov/planetary/apod"
-                            }])
                         }} isActive={name==="Astronomic Picture of the Day"}>Astronomic Picture Of The Day</SideNavMenuItem>
                         <SideNavMenuItem onClick={() => {
                             setName("Mars Rover Photos");
                             set(ref(db, props.user.uid), {
                                 selected: "Mars Rover Photos"
                             })
-                            setData([{
-                                name: "URL",
-                                value: "https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos"
-                            }, {
-                                name: "Sol",
-                                value: "1000"
-                            }])
                         }} isActive={name==="Mars Rover Photos"}>Mars Rover Photos</SideNavMenuItem>
                         <SideNavMenuItem onClick={()=>{
                             setName("Mars Weather")
                             set(ref(db, props.user.uid), {
                                 selected: "Mars Weather"
                             })
-                            setData([
-                                {
-                                    name: "URL",
-                                    value: "https://api.nasa.gov/insight_weather/"
-                                },
-                                {
-                                    name: "FeedType",
-                                    value: "json"
-                                }
-                            ])
                         }} isActive={name==="Mars Weather"}>Mars Whether Service</SideNavMenuItem>
 
 
@@ -133,6 +110,30 @@ export interface formData{
     value: string
 }
 
+const dataMap = {
+    "Mars Weather": [
+        {
+            name: "URL",
+            value: "https://api.nasa.gov/insight_weather/"
+        },
+        {
+            name: "FeedType",
+            value: "json"
+        }
+    ],
+    "Mars Rover Photos": [{
+        name: "URL",
+        value: "https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos"
+    }, {
+        name: "Sol",
+        value: "1000"
+    }],
+    "Astronomic Picture of the Day": [{
+        name: "URL",
+        value: "https://api.nasa.gov/planetary/apod"
+    }]
+
+}
 
 export const linkRenderer = (string: string):ReactNode => {
     const linkExp = /^https?:\/\/[a-z0-9_./-]*$/i
