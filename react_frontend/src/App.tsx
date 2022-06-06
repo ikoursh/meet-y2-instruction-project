@@ -7,7 +7,7 @@ import {Loading} from "@carbon/react";
 import {useAuthState} from "react-firebase-hooks/auth";
 import {get, ref} from "firebase/database"
 
-const url = "http://127.0.0.1:5000"
+const url = "https://ekzt0z.deta.dev/"
 
 function pathFromHref(href: string) {
     href = href.replace("://", "");
