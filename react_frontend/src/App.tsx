@@ -1,11 +1,11 @@
 import React, {lazy, useEffect, Suspense, useState} from 'react';
 import './App.scss';
-import firebase, {auth} from "./firebase";
+import firebase, {auth, db} from "./firebase";
 import {Header, HeaderName} from "carbon-components-react";
 //@ts-ignore
 import {Loading} from "@carbon/react";
-import { useAuthState } from "react-firebase-hooks/auth";
-
+import {useAuthState} from "react-firebase-hooks/auth";
+import {get, ref} from "firebase/database"
 
 const url = "http://127.0.0.1:5000"
 
@@ -21,15 +21,18 @@ function App() {
     const [data, setData] = React.useState<any>(null);
     const [user, loading, error] = useAuthState(auth);
 
-    if (user && (path=="login" || path=="register")) {
-        window.location.href = "/dashboard";
+    if (user && (path == "login" || path == "register")) {
+        get(ref(db, user.uid)).then(snapshot => {
+            if (snapshot.val() && snapshot.val().selected) {
+                window.location.href = "/dashboard";
+            }
+        });
     }
 
     useEffect(() => {
         const fetchData = async () => {
 
             try {
-                console.log(auth.currentUser)
 
                 fetch(url + "/" + path, {
                     method: "POST",
@@ -58,11 +61,11 @@ function App() {
 
             <div style={{top:"48px", position:"relative"}}>
             <Suspense fallback={<Loading/>}>
-                {data ? <Component data={data}/> : <Loading/>}
+                {data ? <Component data={data} user={user}/> : <Loading/>}
             </Suspense>
             </div>
 
-            <Header >
+            <Header>
                 <HeaderName href="/" prefix="API Playground">
                     WEB
                 </HeaderName>

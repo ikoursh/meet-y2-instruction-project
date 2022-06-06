@@ -9,18 +9,26 @@ import {
     SideNavItems,
     SideNavItem, SideNavMenu, SideNavMenuItem, Breadcrumb, BreadcrumbItem
 } from 'carbon-components-react';
-import React, {ReactNode} from 'react';
+import React, {ReactNode, useEffect} from 'react';
 
 //@ts-ignore
 import {ArrowUpRight} from "@carbon/icons-react";
 import "./Dashboard.scss"
-
+import {db} from "../firebase";
+import { ref, set, get } from 'firebase/database';
 export default function Dashboard(props:any){
     const [name, setName] = React.useState("Astronomic Picture of the Day");
     const [data, setData] = React.useState<formData[]>([{
         name: "URL",
         value: "https://api.nasa.gov/planetary/apod"
     }]);
+
+    useEffect(()=>{
+        get(ref(db, props.user.uid)).then(snapshot => {
+            setName(snapshot.val().selected);
+        });
+    }, []);
+
     return(
         <div>
             <div className={"bg"}>
@@ -71,6 +79,9 @@ export default function Dashboard(props:any){
                     <SideNavMenu title={"Nasa APIs"} defaultExpanded={true}>
                         <SideNavMenuItem onClick={()=>{
                             setName("Astronomic Picture of the Day");
+                            set(ref(db, props.user.uid), {
+                                selected: "Astronomic Picture of the Day"
+                            });
                             setData([{
                                 name: "URL",
                                 value: "https://api.nasa.gov/planetary/apod"
@@ -78,6 +89,9 @@ export default function Dashboard(props:any){
                         }} isActive={name==="Astronomic Picture of the Day"}>Astronomic Picture Of The Day</SideNavMenuItem>
                         <SideNavMenuItem onClick={() => {
                             setName("Mars Rover Photos");
+                            set(ref(db, props.user.uid), {
+                                selected: "Mars Rover Photos"
+                            })
                             setData([{
                                 name: "URL",
                                 value: "https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos"
@@ -88,6 +102,9 @@ export default function Dashboard(props:any){
                         }} isActive={name==="Mars Rover Photos"}>Mars Rover Photos</SideNavMenuItem>
                         <SideNavMenuItem onClick={()=>{
                             setName("Mars Weather")
+                            set(ref(db, props.user.uid), {
+                                selected: "Mars Weather"
+                            })
                             setData([
                                 {
                                     name: "URL",

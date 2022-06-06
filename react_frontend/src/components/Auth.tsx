@@ -5,7 +5,8 @@ import {Button, Form, TextInput, Grid, Checkbox, Link, PasswordInput} from 'carb
 //@ts-ignore
 import {ArrowRight} from '@carbon/icons-react';
 import {createUserWithEmailAndPassword, signInWithEmailAndPassword} from "firebase/auth";
-import {auth} from "../firebase";
+import {auth, db} from "../firebase";
+import { ref , set} from "firebase/database";
 function isValidEmail(email: string) {
     return email.length > 0 && email.includes("@");
 }
@@ -45,8 +46,11 @@ export default function Auth(props: { AuthType: string }) {
                                 setPasswordErrorText("Wrong login. Check your email and password.");
                             }
                         } else{
-                            console.log(await createUserWithEmailAndPassword(auth, email, password));
-                            window.location.replace("/dashboard")
+                            const user = await createUserWithEmailAndPassword(auth, email, password);
+                            await set(ref(db, user.user.uid), {
+                                selected: "Astronomic Picture of the Day"
+                            });
+                            // window.location.replace("/dashboard")
                         }
 
                     }
